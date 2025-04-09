@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Statistics -->
+    <div class="stats-cards">
+        <div class="card">
+            <h3>Total Applications</h3>
+            <p>{{ stats.total }}</p>
+        </div>
+        <div class="card">
+            <h3>In Progress</h3>
+            <p>{{ stats.in_progress }}</p>
+        </div>
+        <div class="card">
+            <h3>Failed</h3>
+            <p>{{ stats.failed }}</p>
+        </div>
+        <!-- ... other stats ... -->
+    </div>
+
+    <!-- Failed Applications -->
+    <div class="failed-applications">
+        <h2>Recent Failed Applications</h2>
+        {% for app in failed_applications %}
+        <div class="application-card">
+            <h3>{{ app.reference_id }}</h3>
+            <p>Error: {{ app.error_message }}</p>
+            {% for screenshot in app.screenshots.all %}
+            <div class="screenshot">
+                <img src="{{ screenshot.screenshot_url }}" alt="Error Screenshot">
+                <p>{{ screenshot.step_name }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

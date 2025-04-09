@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Quora Clone{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="mb-4">Questions</h2>
+        {% if user.is_authenticated %}
+            <div class="mb-4">
+                <a href="{% url 'create_question' %}" class="btn btn-primary">Ask a Question</a>
+            </div>
+        {% endif %}
+        
+        {% for question in questions %}
+            <div class="card question-card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'question_detail' id=question.id %}" class="text-decoration-none">
+                            {{ question.question }}
+                        </a>
+                    </h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Asked by {{ question.user.username }} on {{ question.created_at|date:"F d, Y" }}
+                        </small>
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            {{ question.answers.count }} answer{{ question.answers.count|pluralize }}
+                        </small>
+                    </p>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">
+                No questions have been asked yet. Be the first to ask a question!
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
